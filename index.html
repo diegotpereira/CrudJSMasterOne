@@ -25,14 +25,46 @@
                             <th>Título do Livro</th>
                             <th>Autor</th>
                             <th>Editora</th>
+                            <th>Editar</th>
+                            <th>Excluir</th>
                         </tr>
                     </thead>
                 </table>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Dados do Livro</div>
+                    <div class="panel-body">
+                        <form id="livro-form">
+                            <div class="form-group">
+                                <label for="titulo">Título</label>
+                                <input type="text" name="titulo" id="livro_titulo" class="form-control input-lg" placeholder="Título do Livro">
+                            </div>
+                            <div class="form-group">
+                                <label for="autor">Autor</label>
+                                <input type="text" name="autor" id="livro_autor" class="form-control input-lg" placeholder="Nome do Autor">
+                            </div>
+                            <div class="form-group">
+                                <label for="editora">Editora</label>
+                                <input type="text" name="editora" id="livro_editora" class="form-control input-lg" placeholder="Editora do Livro">
+                            </div>
+                            <button type="button" id="btnAtualizar" onclick="atualizarLivro();" class="btn btn-lg btn-primary">
+                                Adicionar Livro
+                            </button> 
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
     <script type="text/javascript">
+        var _row = null;
+
+        var _nextId = 1;
+
+        var _activeId = 0;
+
         $(document).ready(function () {
             livroAdd();
         });
@@ -49,6 +81,125 @@
                 "<td>DTP Software</td>" +
                 "</tr>"
             );
+        }
+
+        function atualizarLivro() {
+            if ($("#livro_titulo").val() != null & $("#livro_titulo").val() != '') {
+                if ($("#btn_atualizar").text() == "Atualizar") {
+                    atualizarLivroTabela(_activeId);
+                }else{
+                    adicionarLivroTabela();
+                }
+
+                limparFormulario();
+
+                $("#livro_titulo").focus();
+            }
+        }
+
+        function adicionarLivroTabela() {
+        
+            $("#tabelaLivro tbody").append(
+                "<tr>" +
+                    "<td>" + $("#livro_titulo").val() + "</td>" +
+                    "<td>" + $("#livro_autor").val() + "</td>" +
+                    "<td>" + $("#livro_editora").val() + "</td>" +
+                    "<td>" + 
+                        "<button type='button' " +
+                        "onclick='mostrarLivro(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon glyphicon-edit'></span>" +
+                        "</button>" +
+                    "</td>" +        
+                    "<td>" +
+                        "<button type='button' " +
+                        "onclick='excluirLivro(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon glyphicon-remove'></span>" +
+                        "</button>" +
+                    "</td>" +    
+                "</tr>"    
+             );
+
+             if ($("#tabelaLivro tbody").length == 0) {
+                $("#tabelaLivro").append("<tbody></tbody>");
+            }
+
+            $("#tabelaLivro tbody").append(bookBuildTableRow(_nextId));
+
+            _nextId += 1;
+        }
+
+        function limparFormulario() {
+            $("#livro_titulo").val("");
+            $("#livro_autor").val("");
+            $("#livro_editora").val("");
+        }
+
+        function excluirLivro(btn_excluir) {
+            $(btn_excluir).parents("tr").remove();
+        }
+
+        function mostrarLivro(btn_editar) {
+            _row = $(btn_editar).parents("tr");
+            var cols = _row.children("td");
+            $("#livro_titulo").val($(cols[0]).text());
+            $("#livro_autor").val($(cols[1]).text());
+            $("#livro_editora").val($(cols[2]).text());
+
+            $("#btn_atualizar").text("Atualizar");
+        }
+
+        function atualizarLivroTabela() {
+
+            var row = $("#tabelaLivro button[data-id = '" + id + "']").parents("tr")[0];
+            
+            $(_row).after(bookBuildTableRow());
+
+            $(_row).remove();
+
+            limparFormulario();
+
+            $("#btn_atualizar").text("Adicionar Livro");
+        }
+
+        function bookBuildTableRow(id) {
+            var row = "<tr>" +
+                "<td>" + $("#livro_titulo").val() + "</td>" +
+                "<td>" + $("#livro_autor").val() + "</td>" +
+                "<td>" + $("#livro_editora").val() + "</td>" +
+                "<td>" +
+                "<button type='button' " +
+                    "onclick='mostrarLivro(this);' " +
+                    "class='btn btn-default'" +
+                    "data-id='" + id + "'>" +
+                    "<span class='glyphicon glyphicon-edit'></span>" +
+                "</button>" +
+                "</td>" +
+                "<td>" + 
+                    "<button type='button' " +
+                    "onclick='excluirLivro(this);' " +
+                    "class='btn btn-default'" +
+                    "data-id='" + id + "'>" +
+                    "<span class='glyphicon glyphicon-remove'></span>" +
+                    "</button>" +
+                "</td>" +
+             "</tr>"
+             
+             return row;
+        } 
+
+        function mostrarLivro(btn_editar) {
+            var row = $(btn_editar).parents("tr");
+            var cols = row.children("td");
+
+            _activeId = $($(cols[3]).children("button")[0]).data("id");
+
+            $("#livro_titulo").val($(cols[0]).text());
+            $("#livro_autor").val($(cols[1]).text());
+            $("#livro_editora").val($(cols[2]).text());
+
+            $("#btn_atualizar").text("Atualizar");
         }
     </script>
 </body>
