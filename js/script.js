@@ -1,5 +1,5 @@
 
-    <script type="text/javascript">
+   
         var _row = null;
 
         var _nextId = 1;
@@ -142,4 +142,3 @@
 
             $("#btn_atualizar").text("Atualizar");
         }
-    </script>
