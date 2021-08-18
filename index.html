@@ -29,6 +29,7 @@
                             <th>Excluir</th>
                         </tr>
                     </thead>
+                    <tbody></tbody>
                 </table>
             </div>
             <div class="col-md-6">
@@ -48,7 +49,7 @@
                                 <label for="editora">Editora</label>
                                 <input type="text" name="editora" id="livro_editora" class="form-control input-lg" placeholder="Editora do Livro">
                             </div>
-                            <button type="button" id="btnAtualizar" onclick="atualizarLivro();" class="btn btn-lg btn-primary">
+                            <button type="submit" id="btnAtualizar"  class="btn btn-lg btn-primary">
                                 Adicionar Livro
                             </button> 
                         </form>
@@ -69,7 +70,7 @@
                 </button>
             </td>
             <td>
-                <button type='button' class='livro-delete btn btn-default' data-id='<%- id %>'>
+                <button type='button' class='livro-excluir btn btn-default' data-id='<%- id %>'>
                     <span class='glyphicon glyphicon-remove'></span>
                 </button>
             </td>
@@ -78,5 +79,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/livro-Form.js"></script>
+    <script src="js/tabela-livro.js"></script>
+    <script src="js/principal.js"></script>
 </body>
 </html>
