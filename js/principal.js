@@ -13,9 +13,9 @@ function eventoLivroEdit() {
 
     _activedId = $($(cols[3]).children("button")[0]).data("id");
 
-    LIVRO_FORM.setData($(cols[0]).text(), $(cols[1]).text(), $(cols[2]).text());
+    livroForm.setData($(cols[0]).text(), $(cols[1]).text(), $(cols[2]).text());
 
-    LIVRO_FORM.setSubmitButtonText("Atualizar");
+    livroForm.setSubmitButtonText("Atualizar");
 }
 
 function eventoLivroExcluirClick() {
@@ -25,21 +25,21 @@ function eventoLivroExcluirClick() {
 function eventoLivroEnviar(e) {
     e.preventDefault();
 
-    if (livroForm.hasErrors) {
-        return
+    if (livroForm.hasErrors()) {
+        return;
     }
 
     if (livroForm.getSubmitButtonText() === "Atualizar") {
-        tabelaLivro.atualizarNaTabela(_activedId);
-        livroForm.setSubmitButtonText("Adicionar Livro")
+        tabelaLivro.atualizarLivroTabela(_activedId);
+        livroForm.setSubmitButtonText("Adicionar Livro");
     } else {
-        tabelaLivro.atualizarNaTabela(_activedId);
+        tabelaLivro.adicionarNaTabela(_activedId);
         _nextId += 1;
     }
 
-    livroForm.clear();
+    livroForm.limpar();
 }
 
-TABELA_LIVRO.eventoLivroEdit('click', '.livro-edit', eventoLivroEdit);
-TABELA_LIVRO.eventoLivroEdit('click', '.livro-excluir', eventoLivroExcluirClick);
-LIVRO_FORM.on('submit', eventoLivroEdit);
+TABELA_LIVRO.on('click', '.livro-edit', eventoLivroEdit);
+TABELA_LIVRO.on('click', '.livro-excluir', eventoLivroExcluirClick);
+LIVRO_FORM.on('submit', eventoLivroEnviar);
